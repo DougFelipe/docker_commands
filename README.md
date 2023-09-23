@@ -432,3 +432,132 @@ docker network disconnect --force meu_contêiner
 ### 40. Exibe informações detalhadas sobre uma rede overlay Swarm
 docker network inspect minha_rede_overlay
 
+## 5. Armazenamento no Docker
+
+### 1. Exibe informações sobre volumes no Docker
+docker volume ls
+
+### 2. Cria um volume no Docker
+docker volume create meu_volume
+
+### 3. Remove um volume no Docker
+docker volume rm meu_volume
+
+### 4. Inspect um volume para obter informações detalhadas
+docker volume inspect meu_volume
+
+### 5. Cria um contêiner e monta um volume nele
+docker run -v meu_volume:/caminho/no/contêiner nome_da_imagem
+
+### 6. Cria um volume com driver específico (exemplo: NFS)
+docker volume create --driver local \
+  --opt type=nfs \
+  --opt o=addr=meu_servidor_nfs,rw \
+  --opt device=:/caminho/no/servidor/nfs meu_volume_nfs
+
+### 7. Remove todos os volumes não utilizados
+docker volume prune
+
+### 8. Mapeia um diretório local para um volume no contêiner
+docker run -v /caminho/local:/caminho/no/contêiner nome_da_imagem
+
+### 9. Copia dados de um volume para outro volume
+docker run --rm -v meu_volume_origem:/origem -v meu_volume_destino:/destino nome_da_imagem cp -r /origem/* /destino/
+
+### 10. Cria um snapshot de um volume para backup
+docker run --rm -v meu_volume:/origem -v $(pwd):/backup nome_da_imagem tar cvf /backup/meu_backup.tar /origem
+
+### 11. Restaura dados de um backup para um volume
+docker run --rm -v meu_volume:/destino -v $(pwd):/backup nome_da_imagem tar xvf /backup/meu_backup.tar -C /destino
+
+### 12. Exibe informações de uso de espaço em disco dos volumes
+docker system df -v
+
+### 13. Cria um volume para compartilhamento entre serviços em um stack Docker Compose
+docker volume create --name=meu_volume_compose
+
+### 14. Define permissões de acesso em um volume
+docker run -v meu_volume:/caminho/no/contêiner:ro nome_da_imagem
+
+### 15. Monta um volume de leitura/gravação apenas para um contêiner
+docker run -v meu_volume:/caminho/no/contêiner:rw nome_da_imagem
+
+### 16. Inspect um contêiner para ver quais volumes ele está usando
+docker inspect --format '{{ .Mounts }}' meu_contêiner
+
+### 17. Copia arquivos de um volume para o sistema local
+docker cp meu_contêiner:/caminho/no/contêiner/arquivo.txt /caminho/local/
+
+### 18. Exibe informações sobre um volume especificando seu nome
+docker volume inspect meu_volume
+
+### 19. Redefine as opções de um volume (por exemplo, para mudar o driver)
+docker volume create --driver novo_driver --opt chave=valor meu_volume_modificado
+
+### 20. Exclui todos os volumes não utilizados, incluindo aqueles com base em filtros
+docker volume prune --filter "label=meu_label"
+
+### 21. Exibe informações sobre todos os pontos de montagem de volumes em um contêiner
+docker inspect --format '{{json .Mounts}}' meu_contêiner
+
+### 22. Cria um volume com rótulo personalizado
+docker volume create --label meu_label meu_volume_rótulo
+
+### 23. Lista volumes com base em rótulos
+docker volume ls -qf "label=meu_label"
+
+### 24. Remove volumes com base em rótulos
+docker volume rm $(docker volume ls -qf "label=meu_label")
+
+### 25. Mapeia um volume temporário de um contêiner
+docker run --rm -v $(pwd):/caminho/no/contêiner nome_da_imagem
+
+### 26. Atualiza um volume para torná-lo somente leitura
+docker volume update --read-only meu_volume
+
+### 27. Monta um volume em modo somente leitura em um contêiner
+docker run -v meu_volume:/caminho/no/contêiner:ro nome_da_imagem
+
+### 28. Exibe informações sobre o driver de armazenamento padrão do Docker
+docker info --format '{{json .Driver}}'
+
+### 29. Lista todos os plugins de volume disponíveis
+docker plugin ls
+
+### 30. Instala um novo plugin de volume
+docker plugin install nome_do_plugin
+
+### 31. Desativa um plugin de volume
+docker plugin disable nome_do_plugin
+
+### 32. Remove um plugin de volume
+docker plugin rm nome_do_plugin
+
+### 33. Exibe informações detalhadas sobre um plugin de volume
+docker plugin inspect nome_do_plugin
+
+### 34. Lista os drivers de volume disponíveis
+docker volume create --driver 
+
+### 35. Redefine a capacidade de um volume (por exemplo, para aumentar o tamanho)
+docker volume create --driver local --opt capacity=10GB meu_volume_capacidade
+
+### 36. Define uma prioridade de armazenamento para um volume
+docker volume create --driver local --opt priority=high meu_volume_prioridade
+
+### 37. Compartilha um volume entre contêineres em um serviço Docker Compose
+docker-compose.yml:
+  services:
+    meu_serviço:
+      volumes:
+        - meu_volume:/caminho/no/contêiner
+
+### 38. Executa um contêiner com acesso a um dispositivo de bloco
+docker run --device=/dev/sdX nome_da_imagem
+
+### 39. Exibe informações sobre dispositivos de bloco disponíveis
+docker info --format '{{json .Devices}}'
+
+### 40. Utiliza dispositivos de bloco para criação de volumes personalizados
+docker run -v /dev/sdX:/caminho/no/contêiner/bloco nome_da_imagem
+
