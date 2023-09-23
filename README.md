@@ -184,5 +184,128 @@ docker version --format '{{.Server.Version}}'
 ### 40. Define uma variável de ambiente em um contêiner em execução
 docker exec -e VARIAVEL=valor meu_contêiner
 
+## 3. Gerenciando Contêineres
+
+### 1. Inicia um novo contêiner a partir de uma imagem
+docker run nome_da_imagem
+
+### 2. Inicia um novo contêiner em segundo plano (detach mode)
+docker run -d nome_da_imagem
+
+### 3. Inicia um contêiner interativamente e entra no shell
+docker run -it nome_da_imagem
+
+### 4. Inicia um contêiner com um nome personalizado
+docker run --name meu_contêiner nome_da_imagem
+
+### 5. Inicia um contêiner com uma variável de ambiente
+docker run -e VARIAVEL=valor nome_da_imagem
+
+### 6. Inicia um contêiner com mapeamento de porta (host:container)
+docker run -p 8080:80 nome_da_imagem
+
+### 7. Inicia um contêiner e monta um volume (bind mount)
+docker run -v /caminho/local:/caminho/no/contêiner nome_da_imagem
+
+### 8. Inicia um contêiner e remove-o quando ele é parado
+docker run --rm nome_da_imagem
+
+### 9. Exibe uma lista de contêineres em execução
+docker ps
+
+### 10. Exibe uma lista de todos os contêineres (incluindo parados)
+docker ps -a
+
+### 11. Para a execução de um contêiner em execução
+docker stop meu_contêiner
+
+### 12. Reinicia um contêiner
+docker restart meu_contêiner
+
+### 13. Pausa a execução de um contêiner em execução
+docker pause meu_contêiner
+
+### 14. Despausa a execução de um contêiner pausado
+docker unpause meu_contêiner
+
+### 15. Executa um comando em um contêiner em execução
+docker exec -it meu_contêiner comando
+
+### 16. Exibe logs de um contêiner em execução
+docker logs meu_contêiner
+
+### 17. Remove um contêiner (deve ser parado antes)
+docker rm meu_contêiner
+
+### 18. Remove todos os contêineres parados
+docker container prune
+
+### 19. Executa um comando em um novo contêiner e remove-o após a execução
+docker run --rm nome_da_imagem comando
+
+### 20. Exibe informações detalhadas sobre um contêiner
+docker inspect meu_contêiner
+
+### 21. Exibe estatísticas em tempo real de um contêiner em execução
+docker stats meu_contêiner
+
+### 22. Exibe informações de uso de recursos de um contêiner específico
+docker stats --no-stream meu_contêiner
+
+### 23. Copia arquivos ou diretórios do sistema local para um contêiner em execução
+docker cp arquivo/diretório meu_contêiner:/caminho/no/contêiner
+
+### 24. Copia arquivos ou diretórios de um contêiner para o sistema local
+docker cp meu_contêiner:/caminho/no/contêiner arquivo/diretório
+
+### 25. Mapeia variáveis de ambiente a partir de um arquivo .env para um contêiner
+docker run --env-file arquivo.env nome_da_imagem
+
+### 26. Exibe informações de uso de recursos de todos os contêineres em execução
+docker stats $(docker ps --format "{{.Names}}")
+
+### 27. Redimensiona um contêiner (altera CPU e memória)
+docker update --cpu-shares 512 --memory 512m meu_contêiner
+
+### 28. Define um limite de CPU para um contêiner
+docker run --cpus 0.5 nome_da_imagem
+
+### 29. Define um limite de memória para um contêiner
+docker run --memory 512m nome_da_imagem
+
+### 30. Exibe as configurações de rede de um contêiner
+docker network inspect meu_contêiner
+
+### 31. Exibe informações sobre os volumes montados em um contêiner
+docker inspect -f '{{ .Mounts }}' meu_contêiner
+
+### 32. Exibe as variáveis de ambiente de um contêiner em execução
+docker exec meu_contêiner env
+
+### 33. Anexa ao console de um contêiner em execução
+docker attach meu_contêiner
+
+### 34. Gera um arquivo de exportação do contêiner em execução
+docker export meu_contêiner > arquivo.tar
+
+### 35. Importa um arquivo de exportação para criar uma imagem
+docker import arquivo.tar nome_da_imagem
+
+### 36. Define a prioridade de um contêiner em execução (Windows)
+docker update --priority abaixo|normal|acima meu_contêiner
+
+### 37. Exibe os eventos de um contêiner em execução
+docker events --filter event=container meu_contêiner
+
+### 38. Move um contêiner de uma rede para outra
+docker network disconnect rede_origem meu_contêiner
+docker network connect rede_destino meu_contêiner
+
+### 39. Cria um contêiner pausado
+docker create --name meu_contêiner nome_da_imagem
+
+### 40. Inicia um contêiner pausado
+docker start -a meu_contêiner
+
 
 
