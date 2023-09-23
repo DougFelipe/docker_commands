@@ -1,4 +1,4 @@
-# Repositório com comandos Uteis do Docker
+# Lista de comandos Uteis do Docker
 
 ## 1. Comandos Básicos
 
@@ -684,6 +684,610 @@ docker-compose config --json
 ### 40. Exibe informações sobre a configuração dos serviços em formato YAML
 docker-compose config --yaml
 
+
+## 7. Docker Swarm (Orquestração)
+
+### 1. Inicia um Docker Swarm
+docker swarm init
+
+### 2. Insere um nó de trabalho em um Docker Swarm
+docker swarm join --token TOKEN IP_DO_MANAGER:PORTA
+
+### 3. Exibe informações sobre o status do Swarm
+docker info
+
+### 4. Cria um serviço em um Docker Swarm
+docker service create --name meu_servico nome_da_imagem
+
+### 5. Escala um serviço para um número específico de réplicas
+docker service scale meu_servico=3
+
+### 6. Atualiza um serviço com uma nova imagem
+docker service update --image nova_imagem:tag meu_servico
+
+### 7. Lista todos os serviços em execução no Swarm
+docker service ls
+
+### 8. Lista todas as tarefas (contêineres) de um serviço
+docker service ps meu_servico
+
+### 9. Remove um serviço do Swarm
+docker service rm meu_servico
+
+### 10. Exibe informações detalhadas sobre um serviço
+docker service inspect meu_servico
+
+### 11. Visualiza logs de um serviço
+docker service logs meu_servico
+
+### 12. Atualiza a política de escalonamento de um serviço
+docker service update --replicas=5 meu_servico
+
+### 13. Cria uma rede personalizada no Swarm
+docker network create --driver overlay minha_rede_overlay
+
+### 14. Lista todas as redes no Swarm
+docker network ls
+
+### 15. Lista nós de trabalho no Swarm
+docker node ls
+
+### 16. Atualiza a descrição de um nó de trabalho
+docker node update --label-add meu_label meu_node
+
+### 17. Remove um nó de trabalho do Swarm
+docker node rm meu_node
+
+### 18. Promove um nó de trabalho a gerente
+docker node promote meu_node
+
+### 19. Define uma restrição de implantação para um serviço
+docker service create --name meu_servico --constraint 'node.labels.meu_label==valor' nome_da_imagem
+
+### 20. Executa um comando em um nó de trabalho do Swarm
+docker node ssh meu_node
+
+### 21. Remove todos os serviços no Swarm
+docker service rm $(docker service ls -q)
+
+### 22. Exibe informações sobre todos os nós no Swarm
+docker node inspect $(docker node ls -q)
+
+### 23. Define uma restrição de recursos para um serviço
+docker service create --name meu_servico --limit-cpu 0.5 --limit-memory 512m nome_da_imagem
+
+### 24. Lista serviços com base em rótulos
+docker service ls --filter "label=meu_label"
+
+### 25. Cria um segredo no Swarm
+echo "minha_senha" | docker secret create meu_secreto -
+
+### 26. Lista todos os segredos no Swarm
+docker secret ls
+
+### 27. Cria um serviço com segredos
+docker service create --name meu_servico --secret meu_secreto nome_da_imagem
+
+### 28. Define um limite de atualização para um serviço
+docker service update --update-delay 10s --update-parallelism 2 meu_servico
+
+### 29. Lista todas as configurações no Swarm
+docker config ls
+
+### 30. Cria uma configuração no Swarm
+echo "minha_configuracao" | docker config create meu_configuracao -
+
+### 31. Cria um serviço com configurações
+docker service create --name meu_servico --config source=meu_configuracao,target=/caminho/no/contêiner nome_da_imagem
+
+### 32. Remove um segredo do Swarm
+docker secret rm meu_secreto
+
+### 33. Remove uma configuração do Swarm
+docker config rm meu_configuracao
+
+### 34. Atualiza uma configuração no Swarm
+docker config update meu_configuracao
+
+### 35. Atualiza um segredo no Swarm
+docker secret update meu_secreto
+
+### 36. Exibe informações detalhadas sobre um nó de trabalho
+docker node inspect meu_node
+
+### 37. Exibe informações detalhadas sobre um serviço em formato JSON
+docker service inspect --format '{{json .}}' meu_servico
+
+### 38. Atualiza um serviço com uma nova política de restart
+docker service update --update-failure-action=rollback meu_servico
+
+### 39. Define uma restrição de implantação baseada em afinidade
+docker service create --name meu_servico --constraint 'node.affinity==meu_node' nome_da_imagem
+
+### 40. Cria uma rede overlay com opções personalizadas
+docker network create --driver overlay --opt encrypted=true minha_rede_overlay
+
+## 8. Segurança e Boas Práticas
+
+### 1. Atualiza o Docker para a versão mais recente
+docker-compose down
+docker-compose up -d
+
+### 2. Verifica as vulnerabilidades nas imagens Docker
+docker scan nome_da_imagem
+
+### 3. Usa contêineres efêmeros (que não persistem após a execução)
+docker run --rm nome_da_imagem
+
+### 4. Restringe as capacidades do kernel em contêineres (e.g., exclui CAP_SYS_ADMIN)
+docker run --cap-drop SYS_ADMIN nome_da_imagem
+
+### 5. Usa imagens oficiais e confiáveis do Docker Hub
+docker pull imagem_oficial
+
+### 6. Mantém as imagens e contêineres atualizados com correções de segurança
+docker-compose pull
+docker-compose up -d
+
+### 7. Limita recursos de CPU e memória para evitar ataques de exaustão
+docker run --cpu-quota=50000 --memory=512m nome_da_imagem
+
+### 8. Utiliza namespaces de rede para isolar contêineres
+docker run --network=none nome_da_imagem
+
+### 9. Evita rodar contêineres com privilégios (privileged)
+docker run --privileged=false nome_da_imagem
+
+### 10. Remove contêineres e imagens não utilizados regularmente
+docker container prune
+docker image prune -a
+
+### 11. Utiliza Docker Content Trust para verificar a autenticidade das imagens
+export DOCKER_CONTENT_TRUST=1
+
+### 12. Define limites de recursos (cgroups) para contêineres
+docker run --cpu-shares=512 --memory=512m nome_da_imagem
+
+### 13. Usa seccomp (Security-Enhanced Linux) para limitar chamadas ao sistema
+docker run --security-opt seccomp=./meu_profile_seccomp.json nome_da_imagem
+
+### 14. Remove caches de imagem após a instalação de pacotes (para reduzir tamanho)
+docker run --rm -it --entrypoint /bin/bash nome_da_imagem -c "apt-get update && apt-get install pacote && apt-get clean"
+
+### 15. Evita armazenar senhas e chaves dentro de contêineres (use variáveis de ambiente)
+docker run -e MINHA_VARIAVEL_SENHA=senha_secreta nome_da_imagem
+
+### 16. Protege a API Docker com autenticação (usando TLS e autenticação baseada em certificados)
+### Configuração detalhada: https://docs.docker.com/engine/security/https/
+
+### 17. Use networks internas para isolar contêineres
+docker network create --internal minha_rede_interna
+
+### 18. Use volumes para armazenar dados persistentes fora de contêineres
+docker run -v /meu/volume:/caminho/no/contêiner nome_da_imagem
+
+### 19. Use Docker Bench Security para verificar a configuração de segurança do host Docker
+docker run -it --net host --pid host --cap-add audit_control \
+  -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
+  -v /var/lib:/var/lib -v /var/run/docker.sock:/var/run/docker.sock \
+  --label docker_bench_security \
+  docker/docker-bench-security
+
+### 20. Monitore os registros de auditoria do kernel para atividades suspeitas
+docker run --privileged --pid=host -v /var/log:/var/log -it --net=host debian:jessie /bin/bash
+
+### 21. Use uma ferramenta de varredura de vulnerabilidades de terceiros
+docker run -it --net=host -v /var/run/docker.sock:/var/run/docker.sock \
+  aquasec/trivy nome_da_imagem
+
+### 22. Implemente políticas de segurança com Docker Content Trust
+docker run --rm -it -v $HOME/.docker/trust:/root/.docker/trust \
+  docker/content-trust sign nome_da_imagem:tag
+
+### 23. Use chaves SSH individuais ao clonar repositórios privados dentro de contêineres
+docker run -v $HOME/.ssh:/root/.ssh nome_da_imagem
+
+### 24. Use namespaces de usuário para restringir privilégios
+docker run --user 1000:1000 nome_da_imagem
+
+### 25. Restrinja a exposição de portas apenas às necessárias
+docker run -p 80:80 nome_da_imagem
+
+### 26. Limite o tempo de vida dos tokens de autenticação em imagens privadas
+docker login -e 1h
+
+### 27. Use a opção `--read-only` para montar sistemas de arquivos em modo somente leitura
+docker run --read-only nome_da_imagem
+
+### 28. Use imagens baseadas em alpine para reduzir a superfície de ataque
+### Exemplo: alpine:3.14
+docker run alpine:3.14
+
+### 29. Atualize regularmente as imagens base para aplicar patches de segurança
+docker pull alpine:3.15
+docker run alpine:3.15
+
+### 30. Evite expor sockets Docker no contêiner
+docker run -v /var/run/docker.sock:/var/run/docker.sock nome_da_imagem
+
+### 31. Use o Docker Security Scanning para verificar imagens em busca de vulnerabilidades
+### Disponível em alguns registros Docker comerciais
+
+### 32. Aplique o princípio do mínimo privilégio ao conceder permissões
+### Evite usar a opção --privileged ou dar acesso à API Docker desnecessariamente
+
+### 33. Evite usar imagens não verificadas ou não oficiais em produção
+
+### 34. Monitore constantemente as atualizações de segurança do Docker e do sistema operacional
+
+### 35. Realize testes regulares de penetração e auditorias de segurança em seus aplicativos Docker
+
+
+## 9. Monitoramento e Gerenciamento 
+
+### 1. Exibe informações de uso de recursos de contêineres em execução
+docker stats
+
+### 2. Exibe informações detalhadas sobre o uso de recursos de um contêiner específico
+docker stats meu_contêiner
+
+### 3. Exibe as 10 principais estatísticas de uso de recursos de contêineres
+docker stats --no-stream --format "table {{.Container}}\t{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+
+### 4. Monitora os logs de um contêiner em tempo real
+docker logs -f meu_contêiner
+
+### 5. Monitora os logs de vários contêineres de um serviço
+docker-compose logs -f meu_serviço
+
+### 6. Inspeciona os eventos do Docker em tempo real
+docker events
+
+### 7. Exibe informações detalhadas sobre o uso de recursos do sistema Docker
+docker system df
+
+### 8. Limpa contêineres parados, imagens não utilizadas e volumes não utilizados
+docker system prune -a
+
+### 9. Exibe informações sobre os processos dentro de um contêiner
+docker top meu_contêiner
+
+### 10. Exibe as últimas N linhas dos logs de um contêiner
+docker logs --tail N meu_contêiner
+
+### 11. Monitora o uso de recursos e os processos em um contêiner em execução
+docker exec -it meu_contêiner top
+
+### 12. Visualiza os detalhes da configuração de um serviço em um Docker Swarm
+docker service ps meu_serviço
+
+### 13. Monitora o uso de recursos de nós de trabalho no Docker Swarm
+docker node ps
+
+### 14. Exibe informações sobre os serviços em execução no Docker Swarm
+docker service ls
+
+### 15. Monitora a atividade da rede de um contêiner em execução
+docker exec -it meu_contêiner tcpdump -i eth0
+
+### 16. Exibe informações detalhadas sobre a configuração de um contêiner
+docker inspect meu_contêiner
+
+### 17. Gera um dump de diagnóstico para um contêiner em execução
+docker exec meu_contêiner docker-containerd-ctr --namespace moby container export meu_contêiner meu_dump.tar
+
+### 18. Exibe informações sobre o uso de armazenamento de contêineres
+docker container diff meu_contêiner
+
+### 19. Exibe informações sobre contêineres em execução, incluindo consumo de CPU e memória
+docker container stats
+
+### 20. Monitora o uso de CPU e memória de contêineres em execução com filtragem por nome
+docker container stats $(docker ps --format={{.Names}})
+
+### 21. Exibe informações sobre as redes disponíveis no sistema Docker
+docker network ls
+
+### 22. Exibe informações detalhadas sobre uma rede específica
+docker network inspect minha_rede
+
+### 23. Monitora o tráfego de rede de um contêiner em execução
+docker exec -it meu_contêiner tcpdump -i eth0 -n
+
+### 24. Visualiza os logs de um serviço específico no Docker Swarm
+docker service logs meu_serviço
+
+### 25. Inspecta o uso de recursos de um nó de trabalho no Docker Swarm
+docker node inspect meu_nó
+
+### 26. Define um limite de uso de CPU para um contêiner em execução
+docker update --cpus 2 meu_contêiner
+
+### 27. Monitora o uso de CPU e memória de contêineres em execução em formato JSON
+docker stats --no-stream --format "table {{json .}}"
+
+### 28. Exibe informações sobre as imagens armazenadas localmente
+docker image ls
+
+### 29. Remove imagens não utilizadas
+docker image prune
+
+### 30. Exibe informações sobre os volumes criados
+docker volume ls
+
+### 31. Exclui volumes não utilizados
+docker volume prune
+
+### 32. Lista os dispositivos de bloco disponíveis no sistema
+docker info --format '{{json .Driver.Status.Devices}}'
+
+### 33. Exibe informações sobre os recursos do sistema Docker
+docker system info
+
+### 34. Exibe informações sobre as configurações do Docker
+docker info
+
+### 35. Monitora o uso de disco de contêineres em execução
+docker exec meu_contêiner df -h
+
+### 36. Reinicia um serviço em um Docker Swarm
+docker service update --force meu_serviço
+
+### 37. Exibe a versão do Docker
+docker --version
+
+### 38. Exibe informações detalhadas sobre a configuração do Docker Compose
+docker-compose config
+
+### 39. Exibe informações sobre a pilha de serviços em execução no Docker Swarm
+docker stack ps minha_pilha
+
+### 40. Verifica a integridade do sistema Docker
+docker system check
+
+## 10. Integração com outras Tecnologias
+
+### 1. Inicia um contêiner MySQL com uma senha de root personalizada
+docker run --name meu-mysql -e MYSQL_ROOT_PASSWORD=minha_senha -d mysql:latest
+
+### 2. Conecta-se a um contêiner MySQL em execução usando o cliente MySQL
+docker exec -it meu-mysql mysql -uroot -pminha_senha
+
+### 3. Exporta um banco de dados MySQL de um contêiner para um arquivo SQL local
+docker exec meu-mysql mysqldump -uroot -pminha_senha meu_banco_de_dados > backup.sql
+
+### 4. Importa um arquivo SQL local para um banco de dados MySQL em execução em um contêiner
+docker exec -i meu-mysql mysql -uroot -pminha_senha meu_banco_de_dados < backup.sql
+
+### 5. Inicia um contêiner Redis em segundo plano
+docker run --name meu-redis -d redis:latest
+
+### 6. Conecta-se a um contêiner Redis em execução usando o cliente Redis
+docker exec -it meu-redis redis-cli
+
+### 7. Inicia um contêiner MongoDB com autenticação
+docker run --name meu-mongo -d -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=minha_senha mongo:latest
+
+### 8. Conecta-se a um contêiner MongoDB em execução usando o cliente mongo
+docker exec -it meu-mongo mongo -u root -p minha_senha
+
+### 9. Inicia um contêiner Elasticsearch em segundo plano
+docker run --name meu-elasticsearch -d -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+
+### 10. Inicia um contêiner Kibana em segundo plano, conectado ao Elasticsearch
+docker run --name meu-kibana -d --link meu-elasticsearch:elasticsearch docker.elastic.co/kibana/kibana:7.10.0
+
+### 11. Inicia um contêiner NGINX e mapeia uma porta específica
+docker run --name meu-nginx -d -p 8080:80 nginx:latest
+
+### 12. Inicia um contêiner Apache HTTP Server com um arquivo de configuração personalizado
+docker run --name meu-apache -d -p 8080:80 -v /caminho/local/httpd.conf:/usr/local/apache2/conf/httpd.conf httpd:latest
+
+### 13. Inicia um contêiner Node.js com base em um diretório local
+docker run --name meu-nodejs -d -p 3000:3000 -v /caminho/local/app:/app node:latest
+
+### 14. Inicia um contêiner Python com base em um diretório local
+docker run --name meu-python -d -p 5000:5000 -v /caminho/local/app:/app python:latest
+
+### 15. Inicia um contêiner Java com base em um arquivo JAR local
+docker run --name meu-java -d -p 8080:8080 -v /caminho/local/meu_app.jar:/app/meu_app.jar openjdk:latest
+
+### 16. Inicia um contêiner Ruby com base em um diretório local
+docker run --name meu-ruby -d -p 3000:3000 -v /caminho/local/app:/app ruby:latest
+
+### 17. Inicia um contêiner .NET Core com base em um diretório local
+docker run --name meu-dotnet -d -p 5000:5000 -v /caminho/local/app:/app mcr.microsoft.com/dotnet/aspnet:latest
+
+### 18. Inicia um contêiner PHP com base em um diretório local
+docker run --name meu-php -d -p 8080:80 -v /caminho/local/app:/var/www/html php:latest
+
+### 19. Inicia um contêiner PostgreSQL com autenticação
+docker run --name meu-postgres -d -e POSTGRES_USER=meu_usuario -e POSTGRES_PASSWORD=minha_senha postgres:latest
+
+### 20. Conecta-se a um contêiner PostgreSQL em execução usando o cliente psql
+docker exec -it meu-postgres psql -U meu_usuario -d meu_banco_de_dados
+
+### 21. Inicia um contêiner Apache Kafka
+docker run -d --name meu-kafka -p 9092:9092 confluentinc/cp-kafka:latest
+
+### 22. Inicia um contêiner Apache ZooKeeper para suportar o Kafka
+docker run -d --name meu-zookeeper -p 2181:2181 confluentinc/cp-zookeeper:latest
+
+### 23. Inicia um contêiner PostgreSQL com uma configuração personalizada
+docker run -d --name meu-postgres -e POSTGRES_USER=meu_usuario -e POSTGRES_PASSWORD=minha_senha -e POSTGRES_DB=meu_banco_de_dados -p 5432:5432 postgres:latest
+
+### 24. Inicia um contêiner MySQL com uma configuração personalizada
+docker run -d --name meu-mysql -e MYSQL_ROOT_PASSWORD=minha_senha -e MYSQL_DATABASE=meu_banco_de_dados -p 3306:3306 mysql:latest
+
+### 25. Inicia um contêiner WordPress, conectado a um contêiner MySQL
+docker run -d --name meu-wordpress -e WORDPRESS_DB_HOST=meu-mysql -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=minha_senha -p 8080:80 wordpress:latest
+
+### 26. Inicia um contêiner MongoDB com autenticação
+docker run -d --name meu-mongodb -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=minha_senha -p 27017:27017 mongo:latest
+
+### 27. Inicia um contêiner Couchbase Server com configurações personalizadas
+docker run -d --name meu-couchbase -p 8091-8094:8091-8094 -p 11210:11210 -e COUCHBASE_ROOT_PASSWORD=minha_senha couchbase:latest
+
+### 28. Inicia um contêiner Elasticsearch e o conecta a um contêiner Kibana
+docker run -d --name meu-elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+
+### 29. Inicia um contêiner Kibana conectado ao Elasticsearch
+docker run -d --name meu-kibana --link meu-elasticsearch:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.10.0
+
+### 30. Inicia um contêiner Redis Sentinel para alta disponibilidade
+docker run -d --name meu-redis-sentinel --link meu-redis:meu-redis -p 26379:26379 redis:latest redis-server --sentinel announce-ip meu-redis --sentinel announce-port 6379
+
+### 31. Inicia um contêiner RabbitMQ com configurações personalizadas
+docker run -d --name meu-rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=meu_usuario -e RABBITMQ_DEFAULT_PASS=minha_senha rabbitmq:latest
+
+### 32. Inicia um contêiner Nginx como proxy reverso para outros serviços
+docker run -d --name meu-proxy-reverso -p 80:80 -v /caminho/local/nginx.conf:/etc/nginx/nginx.conf nginx:latest
+
+### 33. Inicia um contêiner Prometheus para monitoramento
+docker run -d --name meu-prometheus -p 9090:9090 prom/prometheus:latest
+
+### 34. Inicia um contêiner Grafana para visualização de métricas
+docker run -d --name meu-grafana -p 3000:3000 grafana/grafana:latest
+
+### 35. Inicia um contêiner Jenkins para integração contínua
+docker run -d --name meu-jenkins -p 8080:8080 -p 50000:50000 jenkins/jenkins:latest
+
+### 36. Inicia um contêiner SonarQube para análise de código
+docker run -d --name meu-sonarqube -p 9000:9000 sonarqube:latest
+
+### 37. Inicia um contêiner GitLab para controle de código-fonte
+docker run -d --name meu-gitlab -p 80:80 -p 443:443 -p 22:22 gitlab/gitlab-ce:latest
+
+### 38. Inicia um contêiner Mattermost para comunicação em equipe
+docker run -d --name meu-mattermost -p 8065:8065 mattermost/mattermost-team:latest
+
+### 39. Inicia um contêiner Nextcloud para armazenamento e colaboração
+docker run -d --name meu-nextcloud -p 8080:80 nextcloud:latest
+
+### 40. Inicia um contêiner WordPress com banco de dados MariaDB
+docker run -d --name meu-wordpress -p 8080:80 -e WORDPRESS_DB_HOST=meu-mariadb -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=minha_senha wordpress:latest
+
+## 11. Resolução de Problemas
+
+### 1. Exibe os logs de um contêiner em tempo real para diagnóstico
+docker logs -f meu_contêiner
+
+### 2. Executa um contêiner em modo interativo para depurar problemas
+docker run -it meu_contêiner /bin/bash
+
+### 3. Exibe informações sobre a configuração do Docker
+docker info
+
+### 4. Exibe detalhes sobre um erro específico do Docker
+docker info --format '{{.Debug}}'
+
+### 5. Verifica a conectividade de rede entre contêineres
+docker exec -it meu_contêiner ping outro_contêiner
+
+### 6. Verifica se um serviço em um Docker Swarm está funcionando
+docker service ps meu_serviço
+
+### 7. Verifica os eventos do Docker para identificar problemas
+docker events
+
+### 8. Verifica a utilização de recursos do sistema por contêineres
+docker stats
+
+### 9. Reinicia o Docker para resolver problemas de serviço
+systemctl restart docker
+
+### 10. Remove todos os contêineres parados para liberar recursos
+docker container prune
+
+### 11. Remove todas as imagens não utilizadas para economizar espaço em disco
+docker image prune -a
+
+### 12. Remove todos os volumes não utilizados para liberar espaço de armazenamento
+docker volume prune
+
+### 13. Verifica os logs de inicialização do Docker para problemas
+journalctl -u docker
+
+### 14. Verifica as configurações do daemon Docker
+docker info --format '{{.Runtimes}}'
+
+### 15. Exibe informações detalhadas sobre um contêiner para solucionar problemas
+docker inspect meu_contêiner
+
+### 16. Verifica as redes disponíveis no sistema Docker
+docker network ls
+
+### 17. Lista os nós de trabalho em um Docker Swarm para identificar falhas
+docker node ls
+
+### 18. Remove um serviço em um Docker Swarm para reconstruir
+docker service rm meu_serviço
+
+### 19. Verifica se as portas necessárias estão acessíveis em um contêiner
+docker exec -it meu_contêiner nc -zv outro_contêiner 80
+
+### 20. Analisa os logs de erro do Docker para solucionar problemas
+docker events --filter 'event=error'
+
+### 21. Verifica as configurações do daemon Docker para erros
+docker daemon --debug
+
+### 22. Força a remoção de um contêiner em execução
+docker rm -f meu_contêiner
+
+### 23. Exibe os processos em execução dentro de um contêiner para diagnóstico
+docker top meu_contêiner
+
+### 24. Lista todos os contêineres em execução
+docker ps
+
+### 25. Exibe informações detalhadas sobre um serviço em um Docker Swarm
+docker service inspect meu_serviço
+
+### 26. Visualiza os logs de um serviço específico no Docker Swarm
+docker service logs meu_serviço
+
+### 27. Inspecta a rede de sobreposição em um Docker Swarm
+docker network inspect rede_de_sobreposicao
+
+### 28. Força a atualização de um serviço em um Docker Swarm
+docker service update --force meu_serviço
+
+### 29. Limpa o cache DNS interno do Docker para resolver problemas de resolução de nomes
+docker network prune
+
+### 30. Exibe informações sobre as tarefas de serviço em um Docker Swarm
+docker service ps meu_serviço
+
+### 31. Exibe informações sobre as redes de serviço em um Docker Swarm
+docker service inspect --format '{{json .Endpoint.VirtualIPs}}' meu_serviço
+
+### 32. Verifica o status de todos os serviços em execução em um Docker Swarm
+docker service ls
+
+### 33. Exibe as configurações de montagem de volumes de um contêiner
+docker inspect -f '{{json .Mounts}}' meu_contêiner
+
+### 34. Inspeciona a configuração de rede de um contêiner
+docker network inspect $(docker inspect -f '{{.NetworkSettings.Networks.<nome_da_rede>.NetworkID}}' meu_contêiner)
+
+### 35. Verifica a configuração do firewall no host para permitir tráfego Docker
+iptables -L -n
+
+### 36. Exibe as variáveis de ambiente definidas em um contêiner
+docker exec meu_contêiner env
+
+### 37. Força a remoção de todos os contêineres parados
+docker rm $(docker ps -a -q)
+
+### 38. Exibe as informações de erro da última execução do Docker
+docker info --format '{{.Debug}}'
+
+### 39. Verifica se o daemon Docker está em execução e responde
+docker info
+
+### 40. Verifica se o Docker está em execução no modo Swarm
+docker info --format '{{.Swarm.LocalNodeState}}'
 
 
 
