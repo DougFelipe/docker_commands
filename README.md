@@ -307,5 +307,128 @@ docker create --name meu_contêiner nome_da_imagem
 ### 40. Inicia um contêiner pausado
 docker start -a meu_contêiner
 
+## 4. Rede no Docker
 
+### 1. Exibe informações sobre todas as redes no Docker
+docker network ls
+
+### 2. Cria uma rede personalizada no Docker
+docker network create minha_rede
+
+### 3. Remove uma rede no Docker
+docker network rm minha_rede
+
+### 4. Inspect uma rede para obter informações detalhadas
+docker network inspect minha_rede
+
+### 5. Conecta um contêiner a uma rede
+docker network connect minha_rede meu_contêiner
+
+### 6. Desconecta um contêiner de uma rede
+docker network disconnect minha_rede meu_contêiner
+
+### 7. Exibe informações de rede de um contêiner
+docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' meu_contêiner
+
+### 8. Cria um alias de rede para um contêiner
+docker network connect --alias meu_alias minha_rede meu_contêiner
+
+### 9. Exibe informações sobre interfaces de rede de contêineres
+docker exec meu_contêiner ifconfig
+
+### 10. Mapeia uma porta específica para um contêiner
+docker run -p porta_host:porta_contêiner nome_da_imagem
+
+### 11. Exibe as portas mapeadas de um contêiner em execução
+docker port meu_contêiner
+
+### 12. Exibe informações de roteamento de rede para um contêiner
+docker exec meu_contêiner route
+
+### 13. Cria uma rede overlay para uso em clusters Docker Swarm
+docker network create --driver overlay minha_rede_overlay
+
+### 14. Conecta um serviço Docker a uma rede overlay Swarm
+docker service update --network-add minha_rede_overlay meu_serviço
+
+### 15. Remove uma rede customizada e seus contêineres associados
+docker network prune -f
+
+### 16. Mapeia um intervalo de portas para um contêiner
+docker run -p 8080-8090:80 nome_da_imagem
+
+### 17. Exibe informações sobre um driver de rede específico
+docker info --format '{{json .NetworkDrivers}}'
+
+### 18. Limita a largura de banda de uma rede
+docker network create --subnet 172.18.0.0/16 --opt com.docker.network.bridge.name=my_custom_network --opt com.docker.network.bridge.enable_icc=false minha_rede_customizada
+
+### 19. Inspect uma rede para ver informações sobre os contêineres nela conectados
+docker network inspect minha_rede_customizada
+
+### 20. Cria uma rede que permite que contêineres compartilhem o mesmo namespace de rede
+docker network create --driver none minha_rede_nenhum_driver
+
+### 21. Lista todas as redes conectadas a um contêiner
+docker network ls --filter "container=meu_contêiner"
+
+### 22. Exibe informações detalhadas sobre as interfaces de rede de um contêiner
+docker exec meu_contêiner ip a
+
+### 23. Exibe informações sobre as redes conectadas a um contêiner específico
+docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' meu_contêiner
+
+### 24. Conecta automaticamente um contêiner a todas as redes disponíveis
+docker run --network="container:meu_contêiner" nome_da_imagem
+
+### 25. Define uma rede personalizada para um contêiner durante a execução
+docker run --network=minha_rede nome_da_imagem
+
+### 26. Remove um alias de rede de um contêiner
+docker network disconnect --alias meu_alias minha_rede meu_contêiner
+
+### 27. Conecta um contêiner a várias redes
+docker network connect minha_rede_1 meu_contêiner
+docker network connect minha_rede_2 meu_contêiner
+
+### 28. Define o DNS a ser usado por um contêiner
+docker run --dns 8.8.8.8 nome_da_imagem
+
+### 29. Define uma rede para usar endereços IPv6
+docker network create --ipv6 minha_rede_ipv6
+
+### 30. Inspect uma rede IPv6 para obter informações detalhadas
+docker network inspect --format '{{json .IPAM.Config}}' minha_rede_ipv6
+
+### 31. Conecta um contêiner a uma rede IPv6
+docker network connect minha_rede_ipv6 meu_contêiner_ipv6
+
+### 32. Exibe informações detalhadas sobre interfaces de rede de um contêiner IPv6
+docker exec meu_contêiner_ipv6 ip -6 a
+
+### 33. Remove uma rede IPv6
+docker network rm minha_rede_ipv6
+
+### 34. Exibe informações sobre redes bridge, host e null no Docker
+docker network inspect bridge
+docker network inspect host
+docker network inspect none
+
+### 35. Define uma política de filtro de pacotes em uma rede
+docker network create --opt "com.docker.network.bridge.enable_ip_masquerade=false" minha_rede_sem_masquerade
+
+### 36. Cria uma rede em modo host, compartilhando o namespace de rede do host
+docker network create --driver host minha_rede_host
+
+### 37. Define uma rede com limitação de largura de banda
+docker network create --subnet 172.19.0.0/16 --opt "com.docker.network.driver.mtu=1500" minha_rede_largura_banda
+
+### 38. Atualiza as configurações de uma rede personalizada
+docker network update --subnet=172.20.0.0/16 minha_rede_customizada
+
+### 39. Desconecta um contêiner de todas as redes
+docker network disconnect --force meu_contêiner
+
+### 40. Exibe informações detalhadas sobre uma rede overlay Swarm
+docker network inspect minha_rede_overlay
 
