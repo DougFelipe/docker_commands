@@ -561,3 +561,129 @@ docker info --format '{{json .Devices}}'
 ### 40. Utiliza dispositivos de bloco para criação de volumes personalizados
 docker run -v /dev/sdX:/caminho/no/contêiner/bloco nome_da_imagem
 
+
+## 6. Docker Compose
+
+### 1. Executa todos os serviços definidos no arquivo docker-compose.yml em segundo plano
+docker-compose up -d
+
+### 2. Para a execução de todos os serviços definidos no arquivo docker-compose.yml
+docker-compose down
+
+### 3. Exibe os logs de todos os serviços em execução
+docker-compose logs
+
+### 4. Exibe os logs de um serviço específico em execução
+docker-compose logs meu_serviço
+
+### 5. Constrói ou reconstrói os serviços definidos no arquivo docker-compose.yml
+docker-compose build
+
+### 6. Inicia os serviços definidos no arquivo docker-compose.yml em primeiro plano (para observar os logs)
+docker-compose up
+
+### 7. Inicia um serviço específico definido no arquivo docker-compose.yml
+docker-compose up meu_serviço
+
+### 8. Para a execução de um serviço específico definido no arquivo docker-compose.yml
+docker-compose stop meu_serviço
+
+### 9. Reinicia um serviço específico definido no arquivo docker-compose.yml
+docker-compose restart meu_serviço
+
+### 10. Exibe o status dos serviços definidos no arquivo docker-compose.yml
+docker-compose ps
+
+### 11. Exibe informações sobre a configuração dos serviços definidos no arquivo docker-compose.yml
+docker-compose config
+
+### 12. Escala um serviço para um número específico de réplicas
+docker-compose up -d --scale meu_serviço=3
+
+### 13. Exibe informações sobre volumes usados pelos serviços
+docker-compose volume ls
+
+### 14. Remove todos os contêineres, redes e volumes associados aos serviços
+docker-compose down --volumes
+
+### 15. Remove todos os contêineres, mas mantém redes e volumes
+docker-compose down --rmi all
+
+### 16. Exibe a versão do Docker Compose
+docker-compose --version
+
+### 17. Pausa a execução de todos os serviços
+docker-compose pause
+
+### 18. Despausa a execução de todos os serviços
+docker-compose unpause
+
+### 19. Executa um único comando em um serviço
+docker-compose exec meu_serviço comando
+
+### 20. Exibe informações detalhadas sobre os serviços definidos no arquivo docker-compose.yml
+docker-compose ps --services
+
+### 21. Cria um arquivo docker-compose.yml com base em um modelo
+docker-compose config > docker-compose.yml
+
+### 22. Executa serviços em segundo plano, mas também gera logs em tempo real
+docker-compose up -d && docker-compose logs -f
+
+### 23. Força a reconstrução de todos os serviços mesmo se eles não tiverem mudado
+docker-compose up -d --build
+
+### 24. Define variáveis de ambiente em um arquivo `.env` para uso no docker-compose.yml
+docker-compose --env-file meu_arquivo_env up -d
+
+### 25. Executa um serviço e entra no shell interativo
+docker-compose run meu_serviço
+
+### 26. Executa um serviço com a opção `--rm` para remover o contêiner quando ele parar
+docker-compose run --rm meu_serviço
+
+### 27. Pausa a execução de um serviço específico
+docker-compose pause meu_serviço
+
+### 28. Despausa a execução de um serviço específico
+docker-compose unpause meu_serviço
+
+### 29. Escala um serviço específico para um número específico de réplicas
+docker-compose up -d --scale meu_serviço=3
+
+### 30. Exibe estatísticas de uso de recursos de todos os serviços
+docker-compose top
+
+### 31. Remove serviços parados
+docker-compose down --remove-orphans
+
+### 32. Exibe informações detalhadas sobre os volumes usados pelos serviços
+docker-compose volume ls
+
+### 33. Exibe informações sobre a rede de um serviço específico
+docker-compose network inspect meu_serviço
+
+### 34. Atualiza os serviços após a edição do arquivo docker-compose.yml
+docker-compose up -d
+
+### 35. Cria e executa um novo serviço com base em um arquivo Compose diferente
+docker-compose -f meu_outro_arquivo_compose.yml up -d
+
+### 36. Exibe informações de uso de espaço em disco dos volumes usados pelos serviços
+docker-compose volume df
+
+### 37. Pausa todos os serviços
+docker-compose pause
+
+### 38. Despausa todos os serviços
+docker-compose unpause
+
+### 39. Exibe informações sobre a configuração dos serviços em formato JSON
+docker-compose config --json
+
+### 40. Exibe informações sobre a configuração dos serviços em formato YAML
+docker-compose config --yaml
+
+
+
+
